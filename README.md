@@ -46,7 +46,7 @@ The bot will now process messages and echo their content. Ensure that your serve
 
 Result'll be as follows:
 
-![Screenshot](https://ibb.co/x3X1Ywm)
+![Screenshot](https://i.ibb.co/WsGk07D/2024-10-20-17-22-43.png)
 
 
 ## Running Tests
