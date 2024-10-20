@@ -1,5 +1,6 @@
 package com.bots.vkbot.service;
 
+import com.bots.vkbot.model.Event;
 import com.bots.vkbot.utils.VkApiConstants;
 import com.bots.vkbot.utils.connection.ConnectionFactory;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,19 +22,18 @@ class MessageServiceTest {
     private MessageService messageService;
     private ConnectionFactory mockConnectionFactory;
     private HttpURLConnection mockConnection;
-    private Map<String, Object> event;
-    private Map<String, Object> message;
+    private Event event;
 
     @BeforeEach
     public void setUp() {
         mockConnectionFactory = mock(ConnectionFactory.class);
         mockConnection = mock(HttpURLConnection.class);
         messageService = new MessageService(mockConnectionFactory);
-        event = new HashMap<>();
-        message = new HashMap<>();
-        message.put("text", "Hello, world!");
-        message.put("from_id", 123456);
-        event.put("object", message);
+
+        Map<String, Object> eventData = new HashMap<>();
+        eventData.put("text", "Hello, world!");
+        eventData.put("from_id", 123456);
+        event = new Event("message_new", eventData);
     }
 
     @Test

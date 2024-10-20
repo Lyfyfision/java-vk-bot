@@ -1,5 +1,6 @@
 package com.bots.vkbot.controller;
 
+import com.bots.vkbot.model.Event;
 import com.bots.vkbot.service.MessageService;
 import com.bots.vkbot.utils.VkApiConstants;
 import lombok.AllArgsConstructor;
@@ -14,12 +15,13 @@ public class WebhookController {
     private final MessageService messageService;
 
     @PostMapping
-    public String receiveEvent(@RequestBody Map<String, Object> event) {
-        String eventType = (String) event.get("type");
+    public String receiveEvent(@RequestBody Map<String, Object> eventMap) {
+        @SuppressWarnings("unchecked")
+        Event event = new Event((String) eventMap.get("type"), (Map<String, Object>) eventMap.get("object"));
 
-        if ("confirmation".equals(eventType)) {
+        if ("confirmation".equals(event.getType())) {
             return VkApiConstants.CONFIRMATION_TOKEN;
-        } else if("message_new".equals(eventType)) {
+        } else {
             messageService.handleEvent(event);
         }
         return "ok";
