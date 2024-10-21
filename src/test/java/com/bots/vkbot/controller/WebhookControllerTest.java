@@ -39,7 +39,7 @@ class WebhookControllerTest {
     }
 
     @Test
-    @DisplayName("Token can be conformed")
+    @DisplayName("Tokens can be conformed")
     void testReceiveEvent_whenPostConfirmationRequest_shouldReturnConfirmationToken() throws Exception {
         // Arrange
         Event event = new Event("confirmation", eventData);

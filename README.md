@@ -16,7 +16,6 @@ Full VK API features documentation can be found [here](https://dev.vk.com/ru/gui
 ## 1. Clone the repository:
    ```
    git clone https://github.com/Lyfyfision/java-vk-bot.git
-   
    ```
 ## 2. Set up ngrok:
    

@@ -3,6 +3,7 @@ package com.bots.vkbot.service;
 import com.bots.vkbot.model.Event;
 import com.bots.vkbot.model.InputMessage;
 import com.bots.vkbot.model.OutputMessage;
+import com.bots.vkbot.utils.SendMsgUrlBuilder;
 import com.bots.vkbot.utils.VkApiConstants;
 import com.bots.vkbot.utils.connection.ConnectionFactory;
 import lombok.AllArgsConstructor;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 @Service
@@ -44,12 +44,13 @@ public class MessageService {
     }
 
     private void sendMessage(OutputMessage message) throws IOException {
-        String encodedMessage = java.net.URLEncoder.encode(message.getText(), StandardCharsets.UTF_8);
-        String urlString = String.format(
-                VkApiConstants.API_URL + "messages.send?peer_id=%d&message=%s&access_token=%s&v=%s",
-                message.getUserId(), encodedMessage, VkApiConstants.ACCESS_TOKEN, VkApiConstants.API_VERSION
-        );
-        HttpURLConnection connection = connectionFactory.createConnection(urlString);
+        String url = new SendMsgUrlBuilder(VkApiConstants.API_URL)
+                .peerId(message.getUserId())
+                .message(message.getText())
+                .accessToken(VkApiConstants.ACCESS_TOKEN)
+                .apiVersion(VkApiConstants.API_VERSION)
+                .build();
+        HttpURLConnection connection = connectionFactory.createConnection(url);
         connection.setRequestMethod("GET");
         int responseCode = connection.getResponseCode();
         if (responseCode != 200) {
